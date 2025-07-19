@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elbek Design Studio - Professional Design Services</title>
+  <link rel="icon" href="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    }
+
+    .animated-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+      animation: pulse 4s ease-in-out infinite alternate;
+    }
+
+    .wave-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+      border-radius: 50%;
+      animation: wave 20s linear infinite;
+    }
+
+    .wave:nth-child(1) {
+      top: -50%;
+      left: -50%;
+      animation-delay: 0s;
+    }
+
+    .wave:nth-child(2) {
+      top: -60%;
+      left: -60%;
+      animation-delay: -5s;
+      animation-duration: 25s;
+    }
+
+    .wave:nth-child(3) {
+      top: -40%;
+      left: -40%;
+      animation-delay: -10s;
+      animation-duration: 30s;
+    }
+
+    @keyframes wave {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* Header */
+    .header {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #10b981;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.3));
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    .nav-links a:hover {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #10b981, #059669);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::after {
+      width: 80%;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .theme-toggle {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(16, 185, 129, 0.2);
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Main content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 0%, #10b981 50%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: #9ca3af;
+      margin-bottom: 3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .status-section {
+      background: rgba(16, 185, 129, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 24px;
+      padding: 3rem;
+      margin: 3rem 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .status-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.02), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
+
+    .time-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .time-item {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .time-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .time-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #10b981, #059669);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .time-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .time-item h3 {
+      font-size: 0.875rem;
+      color: #9ca3af;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .time-item p {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      padding: 1.5rem;
+      border-radius: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-open {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-closed {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    .status-dot.open {
+      background: #10b981;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+    }
+
+    .status-dot.closed {
+      background: #ef4444;
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.7; 
+        transform: scale(1.1);
+      }
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 4rem;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Help modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 1.5rem;
+      border: 3px solid #10b981;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #9ca3af;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: #10b981;
+      transform: scale(1.1);
+    }
+
+    /* Help button */
+    .help-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+      transition: all 0.3s ease;
+      z-index: 100;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .help-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+      padding: 3rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .footer-contact {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+
+    /* Dark theme adjustments */
+    .dark-theme .animated-bg {
+      background: linear-gradient(135deg, #030712 0%, #111827 50%, #030712 100%);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content,
+      .footer-content {
+        padding: 0 1rem;
+      }
+
+      .main-content {
+        padding: 2rem 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+
+      .time-display {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .status-section {
+        padding: 2rem;
+      }
+    }
+
+    /* Loading animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="/index.html" class="logo">
+        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" />
+        Elbek Design Studio
+      </a>
+      
+      <nav class="nav-links">
+        <a href="/index.html">Bosh sahifa</a>
+        <a href="/html/byqan.html">Qo'llanma</a>
+        <a href="/html/order.html">Dizayn</a>
+        <a href="/html/wepde.html">Veb sayt</a>
+        <a href="#contact">Aloqa</a>
+      </nav>
+
+      <div class="user-info">
+        <button class="theme-toggle" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <section class="hero-section">
+      <h1 class="hero-title">Professional Design Studio</h1>
+      <p class="hero-subtitle">
+        Yuqori sifatli dizayn xizmatlari - Logo, Banner, Avatar va zamonaviy veb saytlar
+      </p>
+
+      <div class="status-section">
+        <div class="time-display">
+          <div class="time-item">
+            <h3>📅 Bugungi sana</h3>
+            <p id="date"></p>
+          </div>
+          <div class="time-item">
+            <h3>🕒 Joriy vaqt</h3>
+            <p id="time"></p>
+          </div>
+          <div class="time-item">
+            <h3>💼 Ish vaqti</h3>
+            <p>07:00 - 01:00</p>
+          </div>
+        </div>
+        
+        <div class="status-indicator" id="status">
+          <div class="status-dot open"></div>
+          <span>Ish olib borilmoqda</span>
+        </div>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="/html/byqan.html" class="btn btn-secondary">
+          📖 Qo'llanma
+        </a>
+        <button class="btn btn-primary" onclick="checkOrderTime()">
+          🚀 Buyurtma berish
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Help button -->
+  <button class="help-btn" onclick="openHelp()">💬</button>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeHelp()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="closeHelp()">✕</button>
+      <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Elbek Design" />
+      <h3 style="margin-bottom: 0.5rem; color: #ffffff;">Elbek Design</h3>
+      <p style="color: #9ca3af; margin-bottom: 1rem;">Professional Designer</p>
+      <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
+        ⚠️ Ish vaqti: 07:00 - 01:00
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" width="32" height="32" style="border-radius: 6px;" />
+        Elbek Design Studio
+      </div>
+      
+      <div class="footer-contact">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span>🕒</span>
+          <span>24/7 Xizmat</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+      authDomain: "buyurtmaboshqarma.firebaseapp.com",
+      projectId: "buyurtmaboshqarma",
+      storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+      messagingSenderId: "415922531356",
+      appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+      measurementId: "G-FNYBF881H2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    
+    window.firebaseApp = app;
+  </script>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let darkMode = localStorage.getItem('theme') === 'dark';
+
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-theme');
+        themeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeIcon.textContent = '🌙';
+      }
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+
+    setTheme(darkMode);
+
+    themeToggle.onclick = () => {
+      darkMode = !darkMode;
+      setTheme(darkMode);
+    };
+
+    // Update time and status
+    function updateTime() {
+      const now = new Date();
+      const dayNames = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
+      const day = dayNames[now.getDay()];
+      const date = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      document.getElementById("date").textContent = `${day}, ${date}.${month}.${year}`;
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("time").textContent = `${hours}:${minutes}:${seconds}`;
+
+      const nowTime = now.getHours() * 60 + now.getMinutes();
+      const start = 7 * 60;
+      const end = 1 * 60;
+
+      const isOpen = nowTime >= start || nowTime < end;
+      const statusElement = document.getElementById("status");
+      
+      if (isOpen) {
+        statusElement.className = 'status-indicator status-open';
+        statusElement.innerHTML = `
+          <div class="status-dot open"></div>
+          <span>Ish olib borilmoqda</span>
+        `;
+      } else {
+        statusElement.className = 'status-indicator status-closed';
+        statusElement.innerHTML = `
+          <div class="status-dot closed"></div>
+          <span>Hozir ish vaqti emas</span>
+        `;
+      }
+    }
+
+    function checkOrderTime() {
+      const now = new Date();
+      const nowTime = now.getHours() * 60 + now.getMinutes();
+      const start = 7 * 60;
+      const end = 1 * 60;
+
+      if (nowTime >= start || nowTime < end) {
+        window.location.href = "/html/register.html";
+      } else {
+        alert("⚠️ Hozir ish vaqti emas. Buyurtma berish uchun 07:00 dan 01:00 gacha kuting.");
+      }
+    }
+
+    function openHelp() {
+      document.getElementById("helpModal").style.display = "flex";
+    }
+
+    function closeHelp() {
+      document.getElementById("helpModal").style.display = "none";
+    }
+
+    // Initialize
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Add fade-in animation to elements
+    window.addEventListener('load', () => {
+      document.body.classList.add('fade-in');
+    });
+  </script>
+</body>
+</html>

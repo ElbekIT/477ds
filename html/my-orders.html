@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mening buyurtmalarim - Elbek Design Studio</title>
+  <link rel="icon" href="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #059669;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #6b7280;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #059669;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .theme-toggle {
+      background: #f3f4f6;
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: #e5e7eb;
+    }
+
+    .user-badge {
+      background: #059669;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Main content */
+    .main-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: white;
+      min-height: calc(100vh - 200px);
+    }
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-title h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .orders-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .order-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .order-card:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .order-id {
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .order-date {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .order-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      font-size: 0.875rem;
+      color: #1f2937;
+      font-weight: 500;
+    }
+
+    .order-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-submitted {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-checking {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-confirmed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .order-price {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #059669;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6b7280;
+    }
+
+    .empty-state img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #047857;
+    }
+
+    /* Loading */
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem;
+    }
+
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #059669;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Footer */
+    .footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #6b7280;
+    }
+
+    /* Dark theme */
+    .dark-theme {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .dark-theme .header,
+    .dark-theme .main-content,
+    .dark-theme .footer {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    .dark-theme .order-card {
+      background: #374151;
+      border-color: #4b5563;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content,
+      .footer-content {
+        padding: 0 1rem;
+      }
+
+      .main-content {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .order-details {
+        grid-template-columns: 1fr;
+      }
+
+      .order-status {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="/index.html" class="logo">
+        <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" />
+        Elbek Design Studio
+      </a>
+      
+      <nav class="nav-links">
+        <a href="/index.html">Bosh sahifa</a>
+        <a href="/html/byqan.html">Qo'llanma</a>
+        <a href="/html/order.html">Dizayn</a>
+        <a href="/html/wepde.html">Veb sayt</a>
+        <a href="/html/habar.html" style="position: relative;">
+          💬 Habarlar
+          <span class="message-notification" id="messageNotification" style="display: none; position: absolute; top: -8px; right: -8px; background: #dc2626; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 600; animation: pulse 2s infinite;">0</span>
+        </a>
+      </nav>
+
+      <div class="user-info">
+        <button class="theme-toggle" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+        </button>
+        <div class="user-badge" id="userDisplay"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="page-title">
+      <h1>📋 Mening buyurtmalarim</h1>
+    </div>
+
+    <div class="loading-container" id="loadingContainer">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div class="orders-container" id="ordersContainer" style="display: none;">
+      <!-- Orders will be loaded here -->
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Empty" />
+      <h3>Hali buyurtmalaringiz yo'q</h3>
+      <p>Birinchi buyurtmangizni bering va jarayonni kuzatib boring</p>
+      <a href="/html/order.html" class="btn btn-primary" style="margin-top: 1rem;">
+        🚀 Buyurtma berish
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" width="32" height="32" style="border-radius: 6px;" />
+        Elbek Design Studio
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+        <span>🕒</span>
+        <span>24/7 Xizmat</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+      authDomain: "buyurtmaboshqarma.firebaseapp.com",
+      projectId: "buyurtmaboshqarma",
+      storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+      messagingSenderId: "415922531356",
+      appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+      measurementId: "G-FNYBF881H2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    window.db = db;
+    window.collection = collection;
+    window.query = query;
+    window.where = where;
+    window.onSnapshot = onSnapshot;
+    window.orderBy = orderBy;
+  </script>
+
+  <script>
+    // Check authentication
+    const user = localStorage.getItem('user');
+    if (!user) {
+      alert("Iltimos, avval ro'yxatdan o'ting!");
+      window.location.href = "register.html";
+    } else {
+      document.getElementById("userDisplay").textContent = user;
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let darkMode = localStorage.getItem('theme') === 'dark';
+
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-theme');
+        themeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeIcon.textContent = '🌙';
+      }
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+
+    setTheme(darkMode);
+
+    themeToggle.onclick = () => {
+      darkMode = !darkMode;
+      setTheme(darkMode);
+    };
+
+    // Status text mapping
+    const statusText = {
+      'submitted': 'Yuborildi',
+      'checking': 'Tekshirilmoqda',
+      'confirmed': 'Tasdiqlandi',
+      'completed': 'Tayyor'
+    };
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('uz-UZ', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Create order card
+    function createOrderCard(order, index) {
+      return `
+        <div class="order-card">
+          <div class="order-header">
+            <div class="order-id">Buyurtma #${index + 1}</div>
+            <div class="order-date">${formatDate(order.createdAt)}</div>
+          </div>
+          
+          <div class="order-details">
+            <div class="detail-item">
+              <div class="detail-label">O'yin/Platform</div>
+              <div class="detail-value">${order.game}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Dizayn turi</div>
+              <div class="detail-value">${order.type}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Telefon</div>
+              <div class="detail-value">${order.phone}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Telegram</div>
+              <div class="detail-value">${order.telegram || 'N/A'}</div>
+            </div>
+          </div>
+          
+          <div class="order-status">
+            <div class="status-badge status-${order.status}">
+              ${statusText[order.status] || order.status}
+            </div>
+            <div class="order-price">${order.price.toLocaleString()} so'm</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Load orders
+    function loadOrders() {
+      if (!window.db) {
+        setTimeout(loadOrders, 1000);
+        return;
+      }
+
+      const q = window.query(
+        window.collection(window.db, 'orders'),
+        window.where('user', '==', user),
+        window.orderBy('createdAt', 'desc')
+      );
+
+      window.onSnapshot(q, (querySnapshot) => {
+        const loadingContainer = document.getElementById('loadingContainer');
+        const ordersContainer = document.getElementById('ordersContainer');
+        const emptyState = document.getElementById('emptyState');
+
+        loadingContainer.style.display = 'none';
+
+        if (querySnapshot.empty) {
+          emptyState.style.display = 'block';
+          ordersContainer.style.display = 'none';
+        } else {
+          emptyState.style.display = 'none';
+          ordersContainer.style.display = 'block';
+          
+          const orders = [];
+          querySnapshot.forEach((doc) => {
+            orders.push(doc.data());
+          });
+
+          ordersContainer.innerHTML = orders.map((order, index) => 
+            createOrderCard(order, index)
+          ).join('');
+        }
+      });
+    }
+
+    // Listen for new messages
+    if (window.db) {
+      const messagesQuery = window.query(
+        window.collection(window.db, 'messages'),
+        window.where('to', '==', user),
+        window.where('read', '==', false)
+      );
+
+      window.onSnapshot(messagesQuery, (querySnapshot) => {
+        const unreadCount = querySnapshot.size;
+        const notification = document.getElementById('messageNotification');
+        if (notification) {
+          if (unreadCount > 0) {
+            notification.textContent = unreadCount;
+            notification.style.display = 'flex';
+          } else {
+            notification.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Initialize
+    loadOrders();
+  </script>
+</body>
+</html>

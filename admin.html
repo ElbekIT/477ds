@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Elbek Design Studio</title>
+  <link rel="icon" href="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #dc2626;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .admin-badge {
+      background: #dc2626;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Login Section */
+    .login-section {
+      max-width: 400px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .login-section h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #dc2626;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      background: white;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #b91c1c;
+    }
+
+    /* Main content */
+    .main-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: none;
+    }
+
+    .main-content.show {
+      display: block;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    /* Orders table */
+    .orders-section {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .orders-table th,
+    .orders-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .orders-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.875rem;
+    }
+
+    .orders-table td {
+      font-size: 0.875rem;
+      color: #1f2937;
+    }
+
+    .orders-table tr:hover {
+      background: #f9fafb;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-submitted {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-checking {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-confirmed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.25rem 0.75rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-confirm {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background: #047857;
+    }
+
+    .btn-complete {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .btn-complete:hover {
+      background: #6d28d9;
+    }
+
+    .btn-reject {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-reject:hover {
+      background: #b91c1c;
+    }
+
+    .order-details {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem;
+    }
+
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #dc2626;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 1rem;
+      }
+
+      .main-content {
+        padding: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .orders-table {
+        font-size: 0.75rem;
+      }
+
+      .orders-table th,
+      .orders-table td {
+        padding: 0.5rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="#" class="logo">
+        <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" />
+        Admin Panel
+      </a>
+      
+      <div class="admin-badge" id="adminDisplay" style="display: none;">
+        👨‍💼 Administrator
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <div class="login-section" id="loginSection">
+    <h1>🔐 Admin Kirish</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Foydalanuvchi nomi</label>
+        <input type="text" id="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Parol</label>
+        <input type="password" id="password" required />
+      </div>
+      <button type="submit" class="btn">Kirish</button>
+    </form>
+  </div>
+
+  <!-- Main content -->
+  <main class="main-content" id="mainContent">
+    <div class="dashboard-header">
+      <h1 class="dashboard-title">📊 Buyurtmalar Boshqaruvi</h1>
+      <button class="btn" onclick="logout()" style="width: auto; padding: 0.5rem 1rem;">
+        Chiqish
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalOrders">0</div>
+        <div class="stat-label">Jami buyurtmalar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="pendingOrders">0</div>
+        <div class="stat-label">Kutilayotgan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="completedOrders">0</div>
+        <div class="stat-label">Bajarilgan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalRevenue">0</div>
+        <div class="stat-label">Jami daromad (so'm)</div>
+      </div>
+    </div>
+
+    <!-- Orders -->
+    <div class="orders-section">
+      <div class="section-header">
+        <h2 class="section-title">📋 Barcha buyurtmalar</h2>
+      </div>
+      
+      <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
+      </div>
+
+      <table class="orders-table" id="ordersTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Foydalanuvchi</th>
+            <th>Telefon</th>
+            <th>O'yin</th>
+            <th>Turi</th>
+            <th>Narxi</th>
+            <th>Holati</th>
+            <th>Sana</th>
+            <th>Amallar</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, onSnapshot, orderBy, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+      authDomain: "buyurtmaboshqarma.firebaseapp.com",
+      projectId: "buyurtmaboshqarma",
+      storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+      messagingSenderId: "415922531356",
+      appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+      measurementId: "G-FNYBF881H2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    window.db = db;
+    window.collection = collection;
+    window.onSnapshot = onSnapshot;
+    window.orderBy = orderBy;
+    window.doc = doc;
+    window.updateDoc = updateDoc;
+  </script>
+
+  <script>
+    // Admin credentials
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "admin123";
+
+    // Check if admin is logged in
+    const isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+    if (isAdminLoggedIn) {
+      showMainContent();
+    }
+
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        localStorage.setItem('adminLoggedIn', 'true');
+        showMainContent();
+      } else {
+        alert('❌ Noto\'g\'ri foydalanuvchi nomi yoki parol!');
+      }
+    });
+
+    function showMainContent() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('mainContent').classList.add('show');
+      document.getElementById('adminDisplay').style.display = 'block';
+      loadOrders();
+    }
+
+    function logout() {
+      localStorage.removeItem('adminLoggedIn');
+      location.reload();
+    }
+
+    // Status text mapping
+    const statusText = {
+      'submitted': 'Yuborildi',
+      'checking': 'Tekshirilmoqda',
+      'confirmed': 'Tasdiqlandi',
+      'completed': 'Tayyor'
+    };
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('uz-UZ', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Update order status
+    async function updateOrderStatus(orderId, newStatus) {
+      try {
+        const orderRef = window.doc(window.db, 'orders', orderId);
+        await window.updateDoc(orderRef, {
+          status: newStatus,
+          updatedAt: new Date().toISOString()
+        });
+        
+        // Show success message
+        alert(`✅ Buyurtma holati "${statusText[newStatus]}" ga o'zgartirildi!`);
+      } catch (error) {
+        console.error('Error updating order:', error);
+        alert('❌ Xatolik yuz berdi!');
+      }
+    }
+
+    // Create action buttons
+    function createActionButtons(order, orderId) {
+      let buttons = '';
+      
+      if (order.status === 'submitted') {
+        buttons += `<button class="btn-small btn-confirm" onclick="updateOrderStatus('${orderId}', 'checking')">Tekshirish</button>`;
+      }
+      
+      if (order.status === 'checking') {
+        buttons += `<button class="btn-small btn-confirm" onclick="updateOrderStatus('${orderId}', 'confirmed')">Tasdiqlash</button>`;
+      }
+      
+      if (order.status === 'confirmed') {
+        buttons += `<button class="btn-small btn-complete" onclick="updateOrderStatus('${orderId}', 'completed')">Tayyor</button>`;
+      }
+      
+      if (order.status !== 'completed') {
+        buttons += `<button class="btn-small btn-reject" onclick="updateOrderStatus('${orderId}', 'submitted')">Qaytarish</button>`;
+      }
+      
+      return buttons;
+    }
+
+    // Load orders
+    function loadOrders() {
+      if (!window.db) {
+        setTimeout(loadOrders, 1000);
+        return;
+      }
+
+      const ordersRef = window.collection(window.db, 'orders');
+      const q = window.orderBy(ordersRef, 'createdAt', 'desc');
+
+      window.onSnapshot(q, (querySnapshot) => {
+        const loadingContainer = document.getElementById('loadingContainer');
+        const ordersTable = document.getElementById('ordersTable');
+        const ordersTableBody = document.getElementById('ordersTableBody');
+
+        loadingContainer.style.display = 'none';
+        ordersTable.style.display = 'table';
+
+        const orders = [];
+        querySnapshot.forEach((doc) => {
+          orders.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Update stats
+        updateStats(orders);
+
+        // Update table
+        ordersTableBody.innerHTML = orders.map((order, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${order.user}</td>
+            <td>${order.phone}</td>
+            <td>${order.game}</td>
+            <td>${order.type}</td>
+            <td>${order.price.toLocaleString()}</td>
+            <td>
+              <span class="status-badge status-${order.status}">
+                ${statusText[order.status]}
+              </span>
+            </td>
+            <td>${formatDate(order.createdAt)}</td>
+            <td>
+              <div class="action-buttons">
+                ${createActionButtons(order, order.id)}
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      });
+    }
+
+    // Update statistics
+    function updateStats(orders) {
+      const totalOrders = orders.length;
+      const pendingOrders = orders.filter(o => o.status !== 'completed').length;
+      const completedOrders = orders.filter(o => o.status === 'completed').length;
+      const totalRevenue = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.price, 0);
+
+      document.getElementById('totalOrders').textContent = totalOrders;
+      document.getElementById('pendingOrders').textContent = pendingOrders;
+      document.getElementById('completedOrders').textContent = completedOrders;
+      document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+    }
+
+    // Make updateOrderStatus globally available
+    window.updateOrderStatus = updateOrderStatus;
+  </script>
+</body>
+</html>

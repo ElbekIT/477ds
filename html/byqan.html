@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Qo'llanma - Elbek Design Studio</title>
+  <link rel="icon" href="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #059669;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #6b7280;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #059669;
+    }
+
+    .theme-toggle {
+      background: #f3f4f6;
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: #e5e7eb;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 0;
+    }
+
+    .breadcrumb-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .breadcrumb-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .breadcrumb-nav a {
+      color: #059669;
+      text-decoration: none;
+    }
+
+    /* Main content */
+    .main-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      background: white;
+      min-height: calc(100vh - 200px);
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Steps */
+    .steps-container {
+      margin-bottom: 3rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 2rem;
+      background: #059669;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .step-image {
+      flex-shrink: 0;
+    }
+
+    .step img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-content p {
+      color: #6b7280;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    /* Features section */
+    .features-section {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+    }
+
+    .features-section h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .feature-card h4 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    /* CTA section */
+    .cta-section {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #047857;
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* Footer */
+    .footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #6b7280;
+    }
+
+    /* Dark theme */
+    .dark-theme {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .dark-theme .header,
+    .dark-theme .breadcrumb,
+    .dark-theme .main-content,
+    .dark-theme .footer {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    .dark-theme .step,
+    .dark-theme .features-section,
+    .dark-theme .cta-section,
+    .dark-theme .feature-card {
+      background: #374151;
+      border-color: #4b5563;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content,
+      .breadcrumb-content,
+      .footer-content {
+        padding: 0 1rem;
+      }
+
+      .main-content {
+        padding: 2rem 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .step {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .step img {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    /* Security */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="/index.html" class="logo">
+        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" />
+        Elbek Design Studio
+      </a>
+      
+      <nav class="nav-links">
+        <a href="/index.html">Bosh sahifa</a>
+        <a href="/html/byqan.html">Qo'llanma</a>
+        <a href="/html/order.html">Dizayn</a>
+        <a href="/html/wepde.html">Veb sayt</a>
+        <a href="#contact">Aloqa</a>
+      </nav>
+
+      <div class="user-info">
+        <button class="theme-toggle" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-content">
+      <nav class="breadcrumb-nav">
+        <a href="/index.html">Bosh sahifa</a>
+        <span>/</span>
+        <span>Qo'llanma</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>🎯 Buyurtma Qo'llanmasi</h1>
+      <p>Professional dizayn xizmatlariga buyurtma berish bo'yicha to'liq yo'riqnoma</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-image">
+          <img src="/img/ggg.jpg" alt="Buyurtma formasi" />
+        </div>
+        <div class="step-content">
+          <h3>📝 Formani to'ldiring</h3>
+          <p>Buyurtma berish uchun barcha kerakli ma'lumotlarni to'ldiring: Telegram username, telefon raqam va boshqa shaxsiy ma'lumotlar. Har bir maydon aniq va tushunarli tarzda to'ldirilishi kerak.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-image">
+          <img src="/img/44.jpg" alt="Dizayn tanlash" />
+        </div>
+        <div class="step-content">
+          <h3>🎮 O'yin va dizayn turini tanlang</h3>
+          <p>O'ynayotgan o'yiningiz (PUBG, Free Fire, CSGO va boshqalar) va kerakli dizayn turini tanlang. Bizda Logo, Banner, Avatar va Preview dizaynlari mavjud. Har bir dizayn turi uchun alohida narx belgilangan.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-image">
+          <img src="/img/55.jpg" alt="Qo'shimcha ma'lumotlar" />
+        </div>
+        <div class="step-content">
+          <h3>💬 Qo'shimcha talablarni yozing</h3>
+          <p>Dizayningizga oid maxsus talablaringizni yozing: kerakli ranglar, matn, o'yinchi nomi, logotip va boshqa muhim tafsilotlar. Qanchalik batafsil yozsangiz, natija shunchalik yaxshi bo'ladi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features section -->
+    <div class="features-section">
+      <h2>✨ Bizning afzalliklarimiz</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🚀</span>
+          <h4>Tez yetkazib berish</h4>
+          <p>24 soat ichida tayyor dizayn</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">💎</span>
+          <h4>Yuqori sifat</h4>
+          <p>Professional darajadagi dizayn</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">💰</span>
+          <h4>Arzon narx</h4>
+          <p>Hamyonbop narxlarda xizmat</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔧</span>
+          <h4>Bepul o'zgartirish</h4>
+          <p>Kerak bo'lsa bepul tahrirlash</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎨</span>
+          <h4>Kreativ yondashuv</h4>
+          <p>Noyob va original dizaynlar</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📞</span>
+          <h4>24/7 yordam</h4>
+          <p>Har doim aloqada bo'lamiz</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA section -->
+    <div class="cta-section">
+      <h2 style="margin-bottom: 1rem; color: #1f2937;">🎯 Tayyor buyurtma berishga?</h2>
+      <p style="color: #6b7280; font-size: 1rem;">Professional dizayn xizmatlarimizdan foydalaning va o'yiningizni yangi darajaga ko'taring!</p>
+      
+      <div class="cta-buttons">
+        <a href="/index.html" class="btn btn-secondary">
+          🏠 Bosh sahifa
+        </a>
+        <a href="/html/order.html" class="btn btn-primary">
+          🚀 Buyurtma berish
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" width="32" height="32" style="border-radius: 6px;" />
+        Elbek Design Studio
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+        <span>🕒</span>
+        <span>24/7 Xizmat</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let darkMode = localStorage.getItem('theme') === 'dark';
+
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-theme');
+        themeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeIcon.textContent = '🌙';
+      }
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+
+    setTheme(darkMode);
+
+    themeToggle.onclick = () => {
+      darkMode = !darkMode;
+      setTheme(darkMode);
+    };
+
+    // Security measures
+    document.addEventListener("keydown", function (e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+        alert("Bu amal cheklangan.");
+      }
+    });
+
+    document.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      alert("O'ng tugma bloklangan.");
+    });
+
+    document.addEventListener("copy", e => {
+      e.preventDefault();
+      alert("Nusxa olish taqiqlangan.");
+    });
+
+    document.addEventListener("cut", e => {
+      e.preventDefault();
+    });
+
+    document.addEventListener("selectstart", e => {
+      e.preventDefault();
+    });
+  </script>
+</body>
+</html>
