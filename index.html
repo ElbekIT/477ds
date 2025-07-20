@@ -722,7 +722,17 @@
   <button class="help-btn" onclick="openHelp()">💬</button>
 
   <!-- Modal -->
-
+  <div class="modal-overlay" id="helpModal" onclick="closeHelp()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="closeHelp()">✕</button>
+      <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Elbek Design" />
+      <h3 style="margin-bottom: 0.5rem; color: #ffffff;">Elbek Design</h3>
+      <p style="color: #9ca3af; margin-bottom: 1rem;">Professional Designer</p>
+      <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
+        ⚠️ Ish vaqti: 07:00 - 01:00
+      </p>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -741,14 +751,16 @@
     </div>
   </footer>
 
-<!-- Firebase bilan real-time status -->
+  <!-- Firebase -->
+ <!-- Firebase -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
     authDomain: "buyurtmaboshqarma.firebaseapp.com",
+    databaseURL: "https://buyurtmaboshqarma-default-rtdb.firebaseio.com", <!-- MUHIM -->
     projectId: "buyurtmaboshqarma",
     storageBucket: "buyurtmaboshqarma.firebasestorage.app",
     messagingSenderId: "415922531356",
@@ -757,25 +769,118 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db = getDatabase(app);
 
-  // Real-time statusni kuzatish
-  const statusRef = doc(db, "system", "workStatus");
+  // Ro'yxatdan o'tgan foydalanuvchini saqlash
+  function registerUser(name) {
+    const usersRef = ref(db, "users");       // "users" bo'limi
+    const newUserRef = push(usersRef);       // Yangi node yaratadi
+    set(newUserRef, {
+      name: name,
+      registeredAt: new Date().toISOString()
+    })
+    .then(() => {
+      console.log("✅ Foydalanuvchi realtime database'ga yozildi:", name);
+    })
+    .catch((error) => {
+      console.error("❌ Xatolik:", error);
+    });
+  }
 
-  onSnapshot(statusRef, (docSnap) => {
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const statusElement = document.getElementById("status");
-
-      // Admin yozgan ma'lumotga qarab yangilash
-      statusElement.innerHTML = `
-        <div class="status-dot ${data.isOpen ? "open" : "closed"}"></div>
-        <span>${data.message || (data.isOpen ? "Xizmat ishlayapti" : "Hozir yopiq")}</span>
-      `;
-      statusElement.className = `status-indicator ${data.isOpen ? "status-open" : "status-closed"}`;
-    }
-  });
+  window.registerUser = registerUser;
 </script>
 
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let darkMode = localStorage.getItem('theme') === 'dark';
+
+    function setTheme(dark) {
+      if (dark) {
+        document.body.classList.add('dark-theme');
+        themeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeIcon.textContent = '🌙';
+      }
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+
+    setTheme(darkMode);
+
+    themeToggle.onclick = () => {
+      darkMode = !darkMode;
+      setTheme(darkMode);
+    };
+
+    // Update time and status
+    function updateTime() {
+      const now = new Date();
+      const dayNames = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
+      const day = dayNames[now.getDay()];
+      const date = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      document.getElementById("date").textContent = `${day}, ${date}.${month}.${year}`;
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("time").textContent = `${hours}:${minutes}:${seconds}`;
+
+      const nowTime = now.getHours() * 60 + now.getMinutes();
+      const start = 7 * 60;
+      const end = 1 * 60;
+
+      const isOpen = nowTime >= start || nowTime < end;
+      const statusElement = document.getElementById("status");
+      
+      if (isOpen) {
+        statusElement.className = 'status-indicator status-open';
+        statusElement.innerHTML = `
+          <div class="status-dot open"></div>
+          <span>Ish olib borilmoqda</span>
+        `;
+      } else {
+        statusElement.className = 'status-indicator status-closed';
+        statusElement.innerHTML = `
+          <div class="status-dot closed"></div>
+          <span>Hozir ish vaqti emas</span>
+        `;
+      }
+    }
+
+    function checkOrderTime() {
+      const now = new Date();
+      const nowTime = now.getHours() * 60 + now.getMinutes();
+      const start = 7 * 60;
+      const end = 1 * 60;
+
+      if (nowTime >= start || nowTime < end) {
+        window.location.href = "/html/register.html";
+      } else {
+        alert("⚠️ Hozir ish vaqti emas. Buyurtma berish uchun 07:00 dan 01:00 gacha kuting.");
+      }
+    }
+
+    function openHelp() {
+      document.getElementById("helpModal").style.display = "flex";
+    }
+
+    function closeHelp() {
+      document.getElementById("helpModal").style.display = "none";
+    }
+
+    // Initialize
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Add fade-in animation to elements
+    window.addEventListener('load', () => {
+      document.body.classList.add('fade-in');
+    });
+  </script>
 </body>
 </html>

@@ -470,139 +470,84 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" width="32" height="32" style="border-radius: 6px;" />
-        Elbek Design Studio
-      </div>
-      
-      <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
-        <span>🕒</span>
-        <span>24/7 Xizmat</span>
-      </div>
-    </div>
-  </footer>
+ <!-- Firebase -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-  <script>
-    const BOT_TOKEN = "7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc";
-    const CHAT_ID = "7833115003";
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+    authDomain: "buyurtmaboshqarma.firebaseapp.com",
+    projectId: "buyurtmaboshqarma",
+    storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+    messagingSenderId: "415922531356",
+    appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+    measurementId: "G-FNYBF881H2"
+  };
 
-    // Check if user is already registered
-    if (localStorage.getItem('user')) {
-      window.location.href = "order.html";
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Telegram Bot Config
+  const BOT_TOKEN = "7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc";
+  const CHAT_ID = "7833115003";
+
+  document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const registerBtn = document.getElementById('registerBtn');
+    const btnText = registerBtn.querySelector('.btn-text');
+    const loading = registerBtn.querySelector('.loading');
+
+    if (!name) {
+      alert("Iltimos, ismingizni kiriting!");
+      return;
     }
 
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    let darkMode = localStorage.getItem('theme') === 'dark';
+    btnText.style.display = 'none';
+    loading.style.display = 'flex';
+    registerBtn.disabled = true;
 
-    function setTheme(dark) {
-      if (dark) {
-        document.body.classList.add('dark-theme');
-        themeIcon.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeIcon.textContent = '🌙';
-      }
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
-    }
+    try {
+      // 1. Firestore-ga foydalanuvchini saqlash
+      await addDoc(collection(db, "users"), {
+        name: name,
+        registeredAt: serverTimestamp()
+      });
 
-    setTheme(darkMode);
-
-    themeToggle.onclick = () => {
-      darkMode = !darkMode;
-      setTheme(darkMode);
-    };
-
-    document.getElementById('registerForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('name').value.trim();
-      const registerBtn = document.getElementById('registerBtn');
-      const btnText = registerBtn.querySelector('.btn-text');
-      const loading = registerBtn.querySelector('.loading');
-
-      if (!name) {
-        alert("Iltimos, ismingizni kiriting!");
-        return;
-      }
-
-      // Show loading state
-      btnText.style.display = 'none';
-      loading.style.display = 'flex';
-      registerBtn.disabled = true;
-
-      try {
-        const message = `🆕 *Yangi foydalanuvchi ro'yxatdan o'tdi*
+      // 2. Telegram-ga xabar yuborish
+      const message = `🆕 *Yangi foydalanuvchi ro'yxatdan o'tdi*
 
 👤 *Ismi:* ${name}
 📅 *Sana:* ${new Date().toLocaleString('uz-UZ')}
 🌐 *Platform:* Web Application`;
 
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: "Markdown"
-          })
-        });
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      });
 
-        const data = await response.json();
+      // 3. LocalStorage-ga ham yozish (login uchun)
+      localStorage.setItem('user', name);
 
-        if (data.ok) {
-          localStorage.setItem('user', name);
-          alert("🎉 Muvaffaqiyatli ro'yxatdan o'tdingiz!");
-          window.location.href = "order.html";
-        } else {
-          throw new Error('Telegram API error');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert("❌ Xatolik yuz berdi, iltimos qayta urinib ko'ring.");
-        
-        // Reset button state
-        btnText.style.display = 'block';
-        loading.style.display = 'none';
-        registerBtn.disabled = false;
-      }
-    });
+      alert("🎉 Muvaffaqiyatli ro'yxatdan o'tdingiz!");
+      window.location.href = "order.html";
 
-    // Security measures
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
+    } catch (error) {
+      console.error("Xatolik:", error);
+      alert("❌ Xatolik yuz berdi, qayta urinib ko'ring.");
+      btnText.style.display = 'block';
+      loading.style.display = 'none';
+      registerBtn.disabled = false;
+    }
+  });
+</script>
 
-    document.addEventListener('keydown', function(e) {
-      if (
-        (e.ctrlKey && ['u', 's', 'p', 'c'].includes(e.key.toLowerCase())) ||
-        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') ||
-        e.key === 'F12'
-      ) {
-        e.preventDefault();
-        alert("Bu amal bloklangan!");
-      }
-    });
-
-    document.addEventListener('selectstart', function(e) {
-      e.preventDefault();
-    });
-
-    document.addEventListener('copy', function(e) {
-      e.preventDefault();
-      alert("Nusxa olish mumkin emas!");
-    });
-
-    document.addEventListener("mousedown", function (e) {
-      if (e.target.tagName === "IMG" && e.button === 2) {
-        e.preventDefault();
-      }
-    });
-  </script>
 </body>
 </html>
