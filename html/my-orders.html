@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mening buyurtmalarim - Elbek Design Studio</title>
   <link rel="icon" href="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -15,20 +15,51 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8fafc;
-      color: #1f2937;
+      background: #0a0a0a;
+      color: #ffffff;
       line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    }
+
+    .animated-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      animation: pulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
     }
 
     /* Header */
     .header {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
       padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     .header-content {
@@ -45,15 +76,22 @@
       align-items: center;
       gap: 0.75rem;
       font-size: 1.5rem;
-      font-weight: 700;
-      color: #059669;
+      font-weight: 800;
+      color: #10b981;
       text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.3));
     }
 
     .logo img {
       width: 40px;
       height: 40px;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
     }
 
     .nav-links {
@@ -63,14 +101,24 @@
     }
 
     .nav-links a {
-      color: #6b7280;
+      color: #e5e7eb;
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
     }
 
     .nav-links a:hover {
-      color: #059669;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
     }
 
     .user-info {
@@ -80,29 +128,32 @@
     }
 
     .theme-toggle {
-      background: #f3f4f6;
-      border: none;
-      border-radius: 8px;
-      width: 40px;
-      height: 40px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 12px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
     }
 
     .theme-toggle:hover {
-      background: #e5e7eb;
+      background: rgba(16, 185, 129, 0.2);
+      transform: scale(1.05);
     }
 
     .user-badge {
-      background: #059669;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 20px;
       font-size: 0.875rem;
-      font-weight: 500;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
     }
 
     /* Main content */
@@ -110,162 +161,384 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem;
-      background: white;
-      min-height: calc(100vh - 200px);
+      position: relative;
+      z-index: 1;
     }
 
     .page-title {
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
     }
 
     .page-title h1 {
-      font-size: 1.875rem;
-      font-weight: 700;
-      color: #1f2937;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .orders-container {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 2rem;
     }
 
     .order-card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: all 0.2s;
+      background: rgba(16, 185, 129, 0.02);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 24px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .order-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.02), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
     }
 
     .order-card:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
     }
 
     .order-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
     }
 
     .order-id {
-      font-size: 0.875rem;
-      color: #6b7280;
-      font-weight: 500;
+      font-size: 1rem;
+      color: #9ca3af;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
     }
 
     .order-date {
-      font-size: 0.75rem;
-      color: #9ca3af;
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 500;
     }
 
     .order-details {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
     }
 
     .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .detail-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(16, 185, 129, 0.2);
     }
 
     .detail-label {
       font-size: 0.75rem;
-      color: #6b7280;
-      font-weight: 500;
+      color: #9ca3af;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .detail-value {
-      font-size: 0.875rem;
-      color: #1f2937;
-      font-weight: 500;
+      font-size: 1rem;
+      color: #ffffff;
+      font-weight: 600;
     }
 
-    .order-status {
+    .order-status-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .status-header h3 {
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .status-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .status-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: rgba(16, 185, 129, 0.2);
+      z-index: 1;
+    }
+
+    .status-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding-top: 1rem;
-      border-top: 1px solid #e5e7eb;
+      justify-content: center;
+      font-weight: 600;
+      color: #9ca3af;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.875rem;
     }
 
-    .status-badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
+    .step-circle.active {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-color: #10b981;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+      animation: pulse-active 2s infinite;
+    }
+
+    .step-circle.completed {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-color: #10b981;
+    }
+
+    @keyframes pulse-active {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+      }
+      50% { 
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+      }
+    }
+
+    .step-label {
       font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: center;
+      max-width: 80px;
       font-weight: 500;
     }
 
-    .status-submitted {
-      background: #fef3c7;
-      color: #92400e;
+    .step-label.active {
+      color: #10b981;
+      font-weight: 600;
     }
 
-    .status-checking {
-      background: #dbeafe;
-      color: #1e40af;
+    .step-label.completed {
+      color: #10b981;
+      font-weight: 600;
     }
 
-    .status-confirmed {
-      background: #d1fae5;
-      color: #065f46;
+    .current-status {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(16, 185, 129, 0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(16, 185, 129, 0.1);
     }
 
-    .status-completed {
-      background: #dcfce7;
-      color: #166534;
+    .status-message {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-description {
+      color: #9ca3af;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+      position: relative;
+      z-index: 2;
     }
 
     .order-price {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: #059669;
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: #6b7280;
-    }
-
-    .empty-state img {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 1rem;
-      opacity: 0.5;
+    .order-actions {
+      display: flex;
+      gap: 1rem;
     }
 
     .btn {
       padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
       font-size: 0.875rem;
-      font-weight: 500;
+      font-weight: 600;
       font-family: 'Inter', sans-serif;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .btn-primary {
-      background: #059669;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
     }
 
     .btn-primary:hover {
-      background: #047857;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: rgba(16, 185, 129, 0.02);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .empty-state::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.02), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    .empty-state-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .empty-state img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      opacity: 0.7;
+      border-radius: 50%;
+      border: 3px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+      color: #9ca3af;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     /* Loading */
@@ -274,13 +547,17 @@
       justify-content: center;
       align-items: center;
       padding: 4rem;
+      background: rgba(16, 185, 129, 0.02);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      border-radius: 24px;
     }
 
     .loading-spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid #e5e7eb;
-      border-top: 3px solid #059669;
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(16, 185, 129, 0.2);
+      border-top: 3px solid #10b981;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -292,10 +569,11 @@
 
     /* Footer */
     .footer {
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      padding: 2rem 0;
-      margin-top: 3rem;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+      padding: 3rem 0;
+      margin-top: 4rem;
     }
 
     .footer-content {
@@ -311,25 +589,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      color: #6b7280;
-    }
-
-    /* Dark theme */
-    .dark-theme {
-      background: #111827;
-      color: #f9fafb;
-    }
-
-    .dark-theme .header,
-    .dark-theme .main-content,
-    .dark-theme .footer {
-      background: #1f2937;
-      border-color: #374151;
-    }
-
-    .dark-theme .order-card {
-      background: #374151;
-      border-color: #4b5563;
+      color: #9ca3af;
     }
 
     /* Responsive */
@@ -347,14 +607,33 @@
         display: none;
       }
 
+      .page-title h1 {
+        font-size: 2rem;
+      }
+
       .order-details {
         grid-template-columns: 1fr;
       }
 
-      .order-status {
+      .order-header {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
+      }
+
+      .order-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .status-steps {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .status-steps::before {
+        display: none;
       }
 
       .footer-content {
@@ -371,6 +650,9 @@
   </style>
 </head>
 <body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+
   <!-- Header -->
   <header class="header">
     <div class="header-content">
@@ -386,8 +668,9 @@
         <a href="/html/wepde.html">Veb sayt</a>
         <a href="/html/habar.html" style="position: relative;">
           💬 Habarlar
-          <span class="message-notification" id="messageNotification" style="display: none; position: absolute; top: -8px; right: -8px; background: #dc2626; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 600; animation: pulse 2s infinite;">0</span>
+          <span class="message-notification" id="messageNotification" style="display: none; position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 600; animation: pulse 2s infinite;">0</span>
         </a>
+        <a href="/html/my-orders.html" class="active">📋 Buyurtmalarim</a>
       </nav>
 
       <div class="user-info">
@@ -414,12 +697,14 @@
     </div>
 
     <div class="empty-state" id="emptyState" style="display: none;">
-      <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Empty" />
-      <h3>Hali buyurtmalaringiz yo'q</h3>
-      <p>Birinchi buyurtmangizni bering va jarayonni kuzatib boring</p>
-      <a href="/html/order.html" class="btn btn-primary" style="margin-top: 1rem;">
-        🚀 Buyurtma berish
-      </a>
+      <div class="empty-state-content">
+        <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Empty" />
+        <h3>Hali buyurtmalaringiz yo'q</h3>
+        <p>Birinchi buyurtmangizni bering va professional dizayn xizmatlaridan foydalaning</p>
+        <a href="/html/order.html" class="btn btn-primary">
+          🚀 Buyurtma berish
+        </a>
+      </div>
     </div>
   </main>
 
@@ -431,7 +716,7 @@
         Elbek Design Studio
       </div>
       
-      <div style="display: flex; align-items: center; gap: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.875rem;">
         <span>🕒</span>
         <span>24/7 Xizmat</span>
       </div>
@@ -501,8 +786,28 @@
     const statusText = {
       'submitted': 'Yuborildi',
       'checking': 'Tekshirilmoqda',
-      'confirmed': 'Tasdiqlandi',
+      'confirmed': 'Qabul qilindi',
       'completed': 'Tayyor'
+    };
+
+    // Status messages
+    const statusMessages = {
+      'submitted': {
+        title: 'Arizangiz qabul qilindi',
+        description: 'Buyurtmangiz muvaffaqiyatli yuborildi va tez orada ko\'rib chiqiladi. Iltimos, biroz sabr qiling.'
+      },
+      'checking': {
+        title: 'Buyurtmangiz tekshirilmoqda',
+        description: 'Mutaxassislarimiz sizning buyurtmangizni batafsil ko\'rib chiqmoqda. Tez orada javob beramiz.'
+      },
+      'confirmed': {
+        title: 'Buyurtma tasdiqlandi!',
+        description: 'Ajoyib! Buyurtmangiz tasdiqlandi va ish boshlandi. Tayyor bo\'lgach darhol xabar beramiz.'
+      },
+      'completed': {
+        title: 'Buyurtmangiz tayyor!',
+        description: 'Buyurtmangiz muvaffaqiyatli tayyorlandi va Telegram orqali yuborildi. Rahmat!'
+      }
     };
 
     // Format date
@@ -517,8 +822,52 @@
       });
     }
 
+    // Update order status display
+    function updateOrderStatus(status) {
+      const steps = ['step1', 'step2', 'step3', 'step4'];
+      
+      // Reset all steps
+      steps.forEach(stepId => {
+        const step = document.getElementById(stepId);
+        const label = step.parentElement.querySelector('.step-label');
+        if (step && label) {
+          step.classList.remove('active', 'completed');
+          label.classList.remove('active', 'completed');
+        }
+      });
+      
+      switch(status) {
+        case 'submitted':
+          document.getElementById('step1')?.classList.add('active');
+          document.getElementById('step1')?.parentElement.querySelector('.step-label')?.classList.add('active');
+          break;
+        case 'checking':
+          document.getElementById('step1')?.classList.add('completed');
+          document.getElementById('step1')?.parentElement.querySelector('.step-label')?.classList.add('completed');
+          document.getElementById('step2')?.classList.add('active');
+          document.getElementById('step2')?.parentElement.querySelector('.step-label')?.classList.add('active');
+          break;
+        case 'confirmed':
+          document.getElementById('step1')?.classList.add('completed');
+          document.getElementById('step1')?.parentElement.querySelector('.step-label')?.classList.add('completed');
+          document.getElementById('step2')?.classList.add('completed');
+          document.getElementById('step2')?.parentElement.querySelector('.step-label')?.classList.add('completed');
+          document.getElementById('step3')?.classList.add('active');
+          document.getElementById('step3')?.parentElement.querySelector('.step-label')?.classList.add('active');
+          break;
+        case 'completed':
+          steps.forEach(stepId => {
+            document.getElementById(stepId)?.classList.add('completed');
+            document.getElementById(stepId)?.parentElement.querySelector('.step-label')?.classList.add('completed');
+          });
+          break;
+      }
+    }
+
     // Create order card
     function createOrderCard(order, index) {
+      const statusInfo = statusMessages[order.status] || statusMessages['submitted'];
+      
       return `
         <div class="order-card">
           <div class="order-header">
@@ -528,28 +877,71 @@
           
           <div class="order-details">
             <div class="detail-item">
-              <div class="detail-label">O'yin/Platform</div>
+              <div class="detail-label">🎮 O'yin/Platform</div>
               <div class="detail-value">${order.game}</div>
             </div>
             <div class="detail-item">
-              <div class="detail-label">Dizayn turi</div>
+              <div class="detail-label">🎨 Dizayn turi</div>
               <div class="detail-value">${order.type}</div>
             </div>
             <div class="detail-item">
-              <div class="detail-label">Telefon</div>
+              <div class="detail-label">📱 Telefon</div>
               <div class="detail-value">${order.phone}</div>
             </div>
             <div class="detail-item">
-              <div class="detail-label">Telegram</div>
-              <div class="detail-value">${order.telegram || 'N/A'}</div>
+              <div class="detail-label">📲 Telegram</div>
+              <div class="detail-value">${order.telegram || 'Kiritilmagan'}</div>
             </div>
           </div>
-          
-          <div class="order-status">
-            <div class="status-badge status-${order.status}">
-              ${statusText[order.status] || order.status}
+
+          <div class="order-status-section">
+            <div class="status-header">
+              <h3>📊 Buyurtma holati</h3>
+              <p style="color: #9ca3af; font-size: 0.875rem;">Real vaqtda kuzatib boring</p>
             </div>
+
+            <div class="status-steps">
+              <div class="status-step">
+                <div class="step-circle" id="step1">1</div>
+                <div class="step-label">Yuborildi</div>
+              </div>
+              <div class="status-step">
+                <div class="step-circle" id="step2">2</div>
+                <div class="step-label">Tekshirilmoqda</div>
+              </div>
+              <div class="status-step">
+                <div class="step-circle" id="step3">3</div>
+                <div class="step-label">Qabul qilindi</div>
+              </div>
+              <div class="status-step">
+                <div class="step-circle" id="step4">4</div>
+                <div class="step-label">Tayyor</div>
+              </div>
+            </div>
+
+            <div class="current-status">
+              <div class="status-message">${statusInfo.title}</div>
+              <div class="status-description">${statusInfo.description}</div>
+            </div>
+          </div>
+
+          ${order.comment ? `
+            <div class="detail-item" style="margin-bottom: 1.5rem;">
+              <div class="detail-label">💬 Qo'shimcha izoh</div>
+              <div class="detail-value">${order.comment}</div>
+            </div>
+          ` : ''}
+          
+          <div class="order-footer">
             <div class="order-price">${order.price.toLocaleString()} so'm</div>
+            <div class="order-actions">
+              <a href="/html/habar.html" class="btn btn-secondary">
+                💬 Habarlar
+              </a>
+              <a href="/html/order.html" class="btn btn-primary">
+                🚀 Yangi buyurtma
+              </a>
+            </div>
           </div>
         </div>
       `;
@@ -587,9 +979,12 @@
             orders.push(doc.data());
           });
 
-          ordersContainer.innerHTML = orders.map((order, index) => 
-            createOrderCard(order, index)
-          ).join('');
+          ordersContainer.innerHTML = orders.map((order, index) => {
+            const cardHTML = createOrderCard(order, index);
+            // Update status after rendering
+            setTimeout(() => updateOrderStatus(order.status), 100);
+            return cardHTML;
+          }).join('');
         }
       });
     }
