@@ -833,260 +833,244 @@
 
   <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, addDoc, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import {
+    getFirestore, collection, addDoc, query, where, onSnapshot, orderBy
+  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
-      authDomain: "buyurtmaboshqarma.firebaseapp.com",
-      projectId: "buyurtmaboshqarma",
-      storageBucket: "buyurtmaboshqarma.firebasestorage.app",
-      messagingSenderId: "415922531356",
-      appId: "1:415922531356:web:72108201e3593ad1ac43d9",
-      measurementId: "G-FNYBF881H2"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+    authDomain: "buyurtmaboshqarma.firebaseapp.com",
+    projectId: "buyurtmaboshqarma",
+    storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+    messagingSenderId: "415922531356",
+    appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+    measurementId: "G-FNYBF881H2"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    window.db = db;
-    window.addDoc = addDoc;
-    window.collection = collection;
-    window.query = query;
-    window.where = where;
-    window.onSnapshot = onSnapshot;
-    window.orderBy = orderBy;
-  </script>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-  <script>
-    // Check authentication
-    const user = localStorage.getItem('user');
-    if (!user) {
-      alert("Iltimos, avval ro'yxatdan o'ting!");
-      window.location.href = "register.html";
+  // globalga ulab qo'yamiz
+  window.db = db;
+  window.addDoc = addDoc;
+  window.collection = collection;
+  window.query = query;
+  window.where = where;
+  window.onSnapshot = onSnapshot;
+  window.orderBy = orderBy;
+</script>
+
+<script>
+  // Foydalanuvchini tekshirish
+  const user = localStorage.getItem('user');
+  if (!user) {
+    alert("Iltimos, avval ro'yxatdan o'ting!");
+    window.location.href = "register.html";
+  } else {
+    document.getElementById("userDisplay").textContent = user;
+  }
+
+  // Narxlar
+  const priceMap = {
+    "Prevyou": 25000,
+    "Banner": 15000,
+    "Avatarka": 10000,
+    "Logo": 15000
+  };
+
+  // Mavzu (dark/light) toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  let darkMode = localStorage.getItem('theme') === 'dark';
+
+  function setTheme(dark) {
+    if (dark) {
+      document.body.classList.add('dark-theme');
+      themeIcon.textContent = '☀️';
     } else {
-      document.getElementById("userDisplay").textContent = user;
+      document.body.classList.remove('dark-theme');
+      themeIcon.textContent = '🌙';
     }
-
-    // Price mapping
-    const priceMap = {
-      "Prevyou": 25000,
-      "Banner": 15000,
-      "Avatarka": 10000,
-      "Logo": 15000
-    };
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    let darkMode = localStorage.getItem('theme') === 'dark';
-
-    function setTheme(dark) {
-      if (dark) {
-        document.body.classList.add('dark-theme');
-        themeIcon.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeIcon.textContent = '🌙';
-      }
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
-    }
-
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  setTheme(darkMode);
+  themeToggle.onclick = () => {
+    darkMode = !darkMode;
     setTheme(darkMode);
+  };
 
-    themeToggle.onclick = () => {
-      darkMode = !darkMode;
-      setTheme(darkMode);
+  // Narxni ko'rsatish
+  function updatePrice() {
+    const designType = document.getElementById("type").value;
+    const priceDisplay = document.getElementById("priceDisplay");
+    const price = priceMap[designType] || 0;
+
+    if (price > 0) {
+      priceDisplay.innerHTML = `Narxi: <strong>${price.toLocaleString()} so'm</strong>`;
+      priceDisplay.classList.add('show');
+    } else {
+      priceDisplay.classList.remove('show');
+    }
+  }
+
+  // Telefon prefiksi
+  function updatePhonePrefix() {
+    const countryCode = document.getElementById("country").value;
+    const phoneInput = document.getElementById("phone");
+    phoneInput.placeholder = countryCode === "+7" ? "701234567" : "901234567";
+  }
+
+  // Buyurtma holatini yangilash
+  function updateOrderStatus(status) {
+    const statusSection = document.getElementById('orderStatusSection');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDescription = document.getElementById('statusDescription');
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+
+    statusSection.classList.add('show');
+    steps.forEach(stepId => {
+      document.getElementById(stepId).classList.remove('active', 'completed');
+    });
+
+    switch (status) {
+      case 'submitted':
+        document.getElementById('step1').classList.add('active');
+        statusMessage.textContent = 'Buyurtma yuborildi';
+        statusDescription.textContent = 'Buyurtmangiz muvaffaqiyatli yuborildi va tez orada ko\'rib chiqiladi.';
+        break;
+      case 'checking':
+        document.getElementById('step1').classList.add('completed');
+        document.getElementById('step2').classList.add('active');
+        statusMessage.textContent = 'Tekshirilmoqda';
+        statusDescription.textContent = 'Buyurtmangiz hozir tekshirilmoqda. Iltimos, biroz kuting.';
+        break;
+      case 'confirmed':
+        document.getElementById('step1').classList.add('completed');
+        document.getElementById('step2').classList.add('completed');
+        document.getElementById('step3').classList.add('active');
+        statusMessage.textContent = 'Buyurtma tasdiqlandi';
+        statusDescription.textContent = 'Buyurtmangiz tasdiqlandi! Tez orada siz bilan bog\'lanamiz.';
+        break;
+      case 'completed':
+        steps.forEach(stepId => {
+          document.getElementById(stepId).classList.add('completed');
+        });
+        statusMessage.textContent = 'Buyurtma tayyor';
+        statusDescription.textContent = 'Buyurtmangiz tayyor! Telegram orqali yuborildi.';
+        break;
+    }
+  }
+
+  // Buyurtma yuborish
+  document.getElementById('orderForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = {
+      telegram: document.getElementById("telegram").value.trim(),
+      country: document.getElementById("country").value,
+      phone: document.getElementById("phone").value.trim(),
+      gender: document.querySelector('input[name="gender"]:checked')?.value,
+      game: document.getElementById("game").value,
+      type: document.getElementById("type").value,
+      comment: document.getElementById("comment").value.trim()
     };
 
-    // Update price display
-    function updatePrice() {
-      const designType = document.getElementById("type").value;
-      const priceDisplay = document.getElementById("priceDisplay");
-      const price = priceMap[designType] || 0;
-
-      if (price > 0) {
-        priceDisplay.innerHTML = `Narxi: <strong>${price.toLocaleString()} so'm</strong>`;
-        priceDisplay.classList.add('show');
-      } else {
-        priceDisplay.classList.remove('show');
-      }
+    if (!formData.gender) {
+      alert("Iltimos, jinsingizni tanlang!");
+      return;
     }
 
-    // Update phone prefix
-    function updatePhonePrefix() {
-      const countryCode = document.getElementById("country").value;
-      const phoneInput = document.getElementById("phone");
-      phoneInput.placeholder = countryCode === "+7" ? "701234567" : "901234567";
-    }
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const loading = submitBtn.querySelector('.loading');
 
-    // Update order status display
-    function updateOrderStatus(status) {
-      const statusSection = document.getElementById('orderStatusSection');
-      const statusMessage = document.getElementById('statusMessage');
-      const statusDescription = document.getElementById('statusDescription');
-      const steps = ['step1', 'step2', 'step3', 'step4'];
-      
-      statusSection.classList.add('show');
-      
-      // Reset all steps
-      steps.forEach(stepId => {
-        const step = document.getElementById(stepId);
-        step.classList.remove('active', 'completed');
-      });
-      
-      switch(status) {
-        case 'submitted':
-          document.getElementById('step1').classList.add('active');
-          statusMessage.textContent = 'Buyurtma yuborildi';
-          statusDescription.textContent = 'Buyurtmangiz muvaffaqiyatli yuborildi va tez orada ko\'rib chiqiladi.';
-          break;
-        case 'checking':
-          document.getElementById('step1').classList.add('completed');
-          document.getElementById('step2').classList.add('active');
-          statusMessage.textContent = 'Tekshirilmoqda';
-          statusDescription.textContent = 'Buyurtmangiz hozir tekshirilmoqda. Iltimos, biroz kuting.';
-          break;
-        case 'confirmed':
-          document.getElementById('step1').classList.add('completed');
-          document.getElementById('step2').classList.add('completed');
-          document.getElementById('step3').classList.add('active');
-          statusMessage.textContent = 'Buyurtma tasdiqlandi';
-          statusDescription.textContent = 'Buyurtmangiz tasdiqlandi! Tez orada siz bilan bog\'lanamiz.';
-          break;
-        case 'completed':
-          steps.forEach(stepId => {
-            document.getElementById(stepId).classList.add('completed');
-          });
-          statusMessage.textContent = 'Buyurtma tayyor';
-          statusDescription.textContent = 'Buyurtmangiz tayyor! Telegram orqali yuborildi.';
-          break;
-      }
-    }
+    btnText.style.display = 'none';
+    loading.style.display = 'flex';
+    submitBtn.disabled = true;
 
-    // Send order
-    document.getElementById('orderForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const formData = {
-        telegram: document.getElementById("telegram").value.trim(),
-        country: document.getElementById("country").value,
-        phone: document.getElementById("phone").value.trim(),
-        gender: document.querySelector('input[name="gender"]:checked')?.value,
-        game: document.getElementById("game").value,
-        type: document.getElementById("type").value,
-        comment: document.getElementById("comment").value.trim()
+    try {
+      const fullPhone = `${formData.country} ${formData.phone}`;
+      const price = priceMap[formData.type] || 0;
+
+      const orderData = {
+        user: user,
+        telegram: formData.telegram,
+        phone: fullPhone,
+        gender: formData.gender,
+        game: formData.game,
+        type: formData.type,
+        comment: formData.comment,
+        price: price,
+        status: 'submitted',
+        createdAt: new Date().toISOString(),
+        userId: `${user}_${Date.now()}`
       };
 
-      // Validation
-      if (!formData.gender) {
-        alert("Iltimos, jinsingizni tanlang!");
-        return;
-      }
+      await window.addDoc(window.collection(window.db, 'orders'), orderData);
 
-      const submitBtn = document.getElementById('submitBtn');
-      const btnText = submitBtn.querySelector('.btn-text');
-      const loading = submitBtn.querySelector('.loading');
+      document.getElementById("successMessage").style.display = "block";
+      document.getElementById('orderForm').reset();
+      document.getElementById("priceDisplay").classList.remove('show');
 
-      // Show loading
-      btnText.style.display = 'none';
-      loading.style.display = 'flex';
-      submitBtn.disabled = true;
+      updateOrderStatus('submitted');
 
-      try {
-        const fullPhone = `${formData.country} ${formData.phone}`;
-        const price = priceMap[formData.type] || 0;
+      setTimeout(() => {
+        updateOrderStatus('checking');
+      }, 10000);
 
-        // Save to Firebase
-        const orderData = {
-          user: user,
-          telegram: formData.telegram,
-          phone: fullPhone,
-          gender: formData.gender,
-          game: formData.game,
-          type: formData.type,
-          comment: formData.comment,
-          price: price,
-          status: 'submitted',
-          createdAt: new Date().toISOString(),
-          userId: user + '_' + Date.now()
-        };
+      setTimeout(() => {
+        document.getElementById("successMessage").style.display = "none";
+      }, 5000);
 
-        await window.addDoc(window.collection(window.db, 'orders'), orderData);
+    } catch (error) {
+      console.error('Error:', error);
+      document.getElementById("errorMessage").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("errorMessage").style.display = "none";
+      }, 5000);
+    } finally {
+      btnText.style.display = 'block';
+      loading.style.display = 'none';
+      submitBtn.disabled = false;
+    }
+  });
 
-        // Show success
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById('orderForm').reset();
-        document.getElementById("priceDisplay").classList.remove('show');
-        
-        // Update status display
-        updateOrderStatus('submitted');
-        
-        // Simulate checking process
-        setTimeout(() => {
-          updateOrderStatus('checking');
-        }, 10000); // 10 seconds
+  // Realtime yangilanish
+  if (window.db) {
+    const q = window.query(
+      window.collection(window.db, 'orders'),
+      window.where('user', '==', user),
+      window.orderBy('createdAt', 'desc')
+    );
 
-        setTimeout(() => {
-          document.getElementById("successMessage").style.display = "none";
-        }, 5000);
-
-      } catch (error) {
-        console.error('Error:', error);
-        document.getElementById("errorMessage").style.display = "block";
-        setTimeout(() => {
-          document.getElementById("errorMessage").style.display = "none";
-        }, 5000);
-      } finally {
-        // Reset button
-        btnText.style.display = 'block';
-        loading.style.display = 'none';
-        submitBtn.disabled = false;
+    window.onSnapshot(q, (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const latestOrder = querySnapshot.docs[0].data();
+        if (latestOrder.status !== 'submitted') {
+          updateOrderStatus(latestOrder.status);
+        }
       }
     });
 
-    // Listen for order status updates
-    if (window.db) {
-      const q = window.query(
-        window.collection(window.db, 'orders'),
-        window.where('user', '==', user),
-        window.orderBy('createdAt', 'desc')
-      );
+    const messagesQuery = window.query(
+      window.collection(window.db, 'messages'),
+      window.where('to', '==', user),
+      window.where('read', '==', false)
+    );
 
-      window.onSnapshot(q, (querySnapshot) => {
-        if (!querySnapshot.empty) {
-          const latestOrder = querySnapshot.docs[0].data();
-          if (latestOrder.status !== 'submitted') {
-            updateOrderStatus(latestOrder.status);
-          }
-        }
-      });
-    }
+    window.onSnapshot(messagesQuery, (querySnapshot) => {
+      const unreadCount = querySnapshot.size;
+      const notification = document.getElementById('messageNotification');
+      if (notification) {
+        notification.style.display = unreadCount > 0 ? 'flex' : 'none';
+        notification.textContent = unreadCount || '';
+      }
+    });
+  }
 
-    // Listen for new messages
-    if (window.db) {
-      const messagesQuery = window.query(
-        window.collection(window.db, 'messages'),
-        window.where('to', '==', user),
-        window.where('read', '==', false)
-      );
+  updatePhonePrefix();
+</script>
 
-      window.onSnapshot(messagesQuery, (querySnapshot) => {
-        const unreadCount = querySnapshot.size;
-        const notification = document.getElementById('messageNotification');
-        if (notification) {
-          if (unreadCount > 0) {
-            notification.textContent = unreadCount;
-            notification.style.display = 'flex';
-          } else {
-            notification.style.display = 'none';
-          }
-        }
-      });
-    }
-
-    // Initialize
-    updatePhonePrefix();
-  </script>
 </body>
 </html>
