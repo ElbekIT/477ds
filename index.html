@@ -751,117 +751,50 @@
     </div>
   </footer>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+ <!-- Firebase bilan real-time status (index.html) -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+  import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
-      authDomain: "buyurtmaboshqarma.firebaseapp.com",
-      projectId: "buyurtmaboshqarma",
-      storageBucket: "buyurtmaboshqarma.firebasestorage.app",
-      messagingSenderId: "415922531356",
-      appId: "1:415922531356:web:72108201e3593ad1ac43d9",
-      measurementId: "G-FNYBF881H2"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+    authDomain: "buyurtmaboshqarma.firebaseapp.com",
+    projectId: "buyurtmaboshqarma",
+    storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+    messagingSenderId: "415922531356",
+    appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+    measurementId: "G-FNYBF881H2"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    
-    window.firebaseApp = app;
-  </script>
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
 
-  <script>
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    let darkMode = localStorage.getItem('theme') === 'dark';
+  // Real-time statusni kuzatish
+  const statusRef = doc(db, "system", "workStatus");
 
-    function setTheme(dark) {
-      if (dark) {
-        document.body.classList.add('dark-theme');
-        themeIcon.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeIcon.textContent = '🌙';
-      }
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
-    }
-
-    setTheme(darkMode);
-
-    themeToggle.onclick = () => {
-      darkMode = !darkMode;
-      setTheme(darkMode);
-    };
-
-    // Update time and status
-    function updateTime() {
-      const now = new Date();
-      const dayNames = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
-      const day = dayNames[now.getDay()];
-      const date = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
-      document.getElementById("date").textContent = `${day}, ${date}.${month}.${year}`;
-
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById("time").textContent = `${hours}:${minutes}:${seconds}`;
-
-      const nowTime = now.getHours() * 60 + now.getMinutes();
-      const start = 7 * 60;
-      const end = 1 * 60;
-
-      const isOpen = nowTime >= start || nowTime < end;
+  onSnapshot(statusRef, (docSnap) => {
+    if (docSnap.exists()) {
+      const data = docSnap.data();
       const statusElement = document.getElementById("status");
-      
-      if (isOpen) {
+
+      if (data.isOpen) {
         statusElement.className = 'status-indicator status-open';
         statusElement.innerHTML = `
           <div class="status-dot open"></div>
-          <span>Ish olib borilmoqda</span>
+          <span>${data.message || "Ish olib borilmoqda"}</span>
         `;
       } else {
         statusElement.className = 'status-indicator status-closed';
         statusElement.innerHTML = `
           <div class="status-dot closed"></div>
-          <span>Hozir ish vaqti emas</span>
+          <span>${data.message || "Hozir ish vaqti emas"}</span>
         `;
       }
     }
+  });
+</script>
 
-    function checkOrderTime() {
-      const now = new Date();
-      const nowTime = now.getHours() * 60 + now.getMinutes();
-      const start = 7 * 60;
-      const end = 1 * 60;
-
-      if (nowTime >= start || nowTime < end) {
-        window.location.href = "/html/register.html";
-      } else {
-        alert("⚠️ Hozir ish vaqti emas. Buyurtma berish uchun 07:00 dan 01:00 gacha kuting.");
-      }
-    }
-
-    function openHelp() {
-      document.getElementById("helpModal").style.display = "flex";
-    }
-
-    function closeHelp() {
-      document.getElementById("helpModal").style.display = "none";
-    }
-
-    // Initialize
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // Add fade-in animation to elements
-    window.addEventListener('load', () => {
-      document.body.classList.add('fade-in');
-    });
-  </script>
 </body>
 </html>
