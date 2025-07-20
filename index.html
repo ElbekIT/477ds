@@ -722,17 +722,7 @@
   <button class="help-btn" onclick="openHelp()">💬</button>
 
   <!-- Modal -->
-  <div class="modal-overlay" id="helpModal" onclick="closeHelp()">
-    <div class="modal" onclick="event.stopPropagation()">
-      <button class="close-btn" onclick="closeHelp()">✕</button>
-      <img src="/477ds/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Elbek Design" />
-      <h3 style="margin-bottom: 0.5rem; color: #ffffff;">Elbek Design</h3>
-      <p style="color: #9ca3af; margin-bottom: 1rem;">Professional Designer</p>
-      <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
-        ⚠️ Ish vaqti: 07:00 - 01:00
-      </p>
-    </div>
-  </div>
+
 
   <!-- Footer -->
   <footer class="footer">
@@ -751,10 +741,9 @@
     </div>
   </footer>
 
- <!-- Firebase bilan real-time status (index.html) -->
+<!-- Firebase bilan real-time status -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
   import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
   const firebaseConfig = {
@@ -768,7 +757,6 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
   // Real-time statusni kuzatish
@@ -779,19 +767,12 @@
       const data = docSnap.data();
       const statusElement = document.getElementById("status");
 
-      if (data.isOpen) {
-        statusElement.className = 'status-indicator status-open';
-        statusElement.innerHTML = `
-          <div class="status-dot open"></div>
-          <span>${data.message || "Ish olib borilmoqda"}</span>
-        `;
-      } else {
-        statusElement.className = 'status-indicator status-closed';
-        statusElement.innerHTML = `
-          <div class="status-dot closed"></div>
-          <span>${data.message || "Hozir ish vaqti emas"}</span>
-        `;
-      }
+      // Admin yozgan ma'lumotga qarab yangilash
+      statusElement.innerHTML = `
+        <div class="status-dot ${data.isOpen ? "open" : "closed"}"></div>
+        <span>${data.message || (data.isOpen ? "Xizmat ishlayapti" : "Hozir yopiq")}</span>
+      `;
+      statusElement.className = `status-indicator ${data.isOpen ? "status-open" : "status-closed"}`;
     }
   });
 </script>
