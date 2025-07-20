@@ -506,95 +506,66 @@
     </div>
   </footer>
 
-  <script>
-    // Check if user is already logged in
-    if (localStorage.getItem('user')) {
-      window.location.href = "order.html";
+ <script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getFirestore, collection, addDoc, setDoc, doc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMcuKS16tgYjG6h7oX69jrxlJYu78PYWQ",
+    authDomain: "buyurtmaboshqarma.firebaseapp.com",
+    projectId: "buyurtmaboshqarma",
+    storageBucket: "buyurtmaboshqarma.firebasestorage.app",
+    messagingSenderId: "415922531356",
+    appId: "1:415922531356:web:72108201e3593ad1ac43d9",
+    measurementId: "G-FNYBF881H2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Login funksiyasi
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const nameInput = document.getElementById('name').value.trim();
+    if (!nameInput) {
+      alert("❌ Ismingizni kiriting!");
+      return;
     }
 
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    let darkMode = localStorage.getItem('theme') === 'dark';
+    // Foydalanuvchini Firestore'ga yozamiz (yangi yoki update)
+    const userRef = doc(db, "users", nameInput);
+    await setDoc(userRef, {
+      username: nameInput,
+      online: true,
+      lastLogin: serverTimestamp()
+    });
 
-    function setTheme(dark) {
-      if (dark) {
-        document.body.classList.add('dark-theme');
-        themeIcon.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeIcon.textContent = '🌙';
+    localStorage.setItem("user", nameInput);
+    alert("🎉 Muvaffaqiyatli tizimga kirdingiz!");
+    window.location.href = "order.html";
+  });
+
+  // Kim onlaynligini real-time kuzatish
+  const usersRef = collection(db, "users");
+  onSnapshot(usersRef, (snapshot) => {
+    const onlineUsers = [];
+    snapshot.forEach(doc => {
+      if (doc.data().online) {
+        onlineUsers.push(doc.id);
       }
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    });
+    console.log("Hozir onlayn foydalanuvchilar:", onlineUsers);
+  });
+
+  // Sahifadan chiqib ketganda foydalanuvchini offline qilamiz
+  window.addEventListener("beforeunload", async () => {
+    const currentUser = localStorage.getItem("user");
+    if (currentUser) {
+      const userRef = doc(db, "users", currentUser);
+      await setDoc(userRef, { online: false }, { merge: true });
     }
+  });
+</script>
 
-    setTheme(darkMode);
-
-    themeToggle.onclick = () => {
-      darkMode = !darkMode;
-      setTheme(darkMode);
-    };
-
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const nameInput = document.getElementById('name').value.trim();
-      const storedName = localStorage.getItem('user');
-      const loadingOverlay = document.getElementById('loadingOverlay');
-
-      if (!nameInput) {
-        alert("❌ Iltimos, ismingizni kiriting!");
-        return;
-      }
-
-      if (!storedName) {
-        alert("❌ Siz hali ro'yxatdan o'tmagansiz. Iltimos, avval ro'yxatdan o'ting.");
-        window.location.href = "register.html";
-        return;
-      }
-
-      // Show loading
-      loadingOverlay.style.display = 'flex';
-
-      // Simulate loading time for better UX
-      setTimeout(() => {
-        if (nameInput === storedName) {
-          alert("🎉 Muvaffaqiyatli tizimga kirdingiz!");
-          window.location.href = "order.html";
-        } else {
-          loadingOverlay.style.display = 'none';
-          alert("❌ Ism noto'g'ri. Iltimos, qayta urinib ko'ring.");
-          document.getElementById('name').focus();
-        }
-      }, 1500);
-    });
-
-    // Security measures
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    
-    document.addEventListener('keydown', function(e) {
-      if (
-        (e.ctrlKey && ['u', 's', 'p', 'c'].includes(e.key.toLowerCase())) ||
-        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') ||
-        e.key === 'F12'
-      ) {
-        e.preventDefault();
-        alert("Bu amal bloklangan!");
-      }
-    });
-    
-    document.addEventListener('selectstart', e => e.preventDefault());
-    
-    document.addEventListener('copy', e => {
-      e.preventDefault();
-      alert("Nusxa olish mumkin emas!");
-    });
-    
-    document.addEventListener("mousedown", function (e) {
-      if (e.target.tagName === "IMG" && e.button === 2) {
-        e.preventDefault();
-      }
-    });
-  </script>
 </body>
 </html>
